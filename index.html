@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Orçamentos da Reforma</title>
+  <meta name="description" content="Controle de orçamentos, fornecedores, pagamentos e saldo da reforma.">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+  <script>try{var t=localStorage.getItem('orc-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">🏠</span>
+      <div>
+        <h1 id="obra-nome">Orçamentos da Reforma</h1>
+        <small id="obra-sub" class="muted"></small>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="sync-chip" class="chip" data-goto="config" title="Estado da sincronização"><span class="dot"></span><span id="sync-text">Somente neste aparelho</span></button>
+      <button id="btn-theme" class="icon-btn" title="Alternar tema" aria-label="Alternar tema">🌓</button>
+      <button id="btn-print" class="icon-btn" title="Imprimir / salvar em PDF" aria-label="Imprimir">🖨️</button>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tab-btn" data-tab="painel" role="tab">📊 Painel</button>
+    <button class="tab-btn" data-tab="orcamentos" role="tab">🧾 Orçamentos</button>
+    <button class="tab-btn" data-tab="financeiro" role="tab">💳 Financeiro</button>
+    <button class="tab-btn" data-tab="categorias" role="tab">🗂️ Categorias</button>
+    <button class="tab-btn" data-tab="notas" role="tab">📌 Pontos de atenção</button>
+    <button class="tab-btn" data-tab="config" role="tab">⚙️ Configurações</button>
+  </nav>
+</header>
+
+<main id="main">
+  <section id="tab-painel" class="tab" hidden></section>
+
+  <section id="tab-orcamentos" class="tab" hidden>
+    <div class="toolbar">
+      <input id="f-q" type="search" placeholder="🔎 Buscar fornecedor, item, observação…" autocomplete="off">
+      <select id="f-cat" aria-label="Categoria"></select>
+      <select id="f-status" aria-label="Status">
+        <option value="">Todos os status</option>
+        <option>Em cotação</option><option>Escolhido</option><option>Contratado</option><option>Descartado</option>
+      </select>
+      <select id="f-valid" aria-label="Validade">
+        <option value="">Qualquer validade</option>
+        <option value="vencido">Vencidos</option>
+        <option value="breve">Vencem em até 3 dias</option>
+        <option value="ok">Válidos</option>
+        <option value="sem">Sem data</option>
+      </select>
+      <select id="f-ordem" aria-label="Ordenar">
+        <option value="codigo">Ordem de cadastro</option>
+        <option value="categoria">Categoria</option>
+        <option value="fornecedor">Fornecedor</option>
+        <option value="valor-asc">Menor valor</option>
+        <option value="valor-desc">Maior valor</option>
+        <option value="validade">Validade mais próxima</option>
+        <option value="recente">Alterados recentemente</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="f-desc" checked> Mostrar descartados</label>
+      <button class="btn primary" data-act="novo">＋ Novo orçamento</button>
+    </div>
+    <div id="orc-resumo" class="muted resumo"></div>
+    <div id="orc-lista"></div>
+  </section>
+
+  <section id="tab-financeiro" class="tab" hidden></section>
+  <section id="tab-categorias" class="tab" hidden></section>
+  <section id="tab-notas" class="tab" hidden></section>
+  <section id="tab-config" class="tab" hidden></section>
+</main>
+
+<footer class="foot muted">Dados salvos neste navegador<span id="foot-sync"></span>. Faça backup em Configurações.</footer>
+
+<!-- Formulário de orçamento -->
+<dialog id="dlg-form"><form method="dialog" id="form-orc" autocomplete="off"></form></dialog>
+<!-- Detalhe de orçamento -->
+<dialog id="dlg-detail"></dialog>
+<!-- Quem está usando -->
+<dialog id="dlg-who">
+  <form method="dialog" id="form-who" class="who">
+    <h2>👋 Quem está usando?</h2>
+    <p class="muted">Seu nome aparece como autor das alterações (útil quando vocês dois editam).</p>
+    <input id="who-name" name="nome" required maxlength="30" placeholder="Ex.: Marcos">
+    <div class="row-end"><button class="btn primary" value="ok">Continuar</button></div>
+  </form>
+</dialog>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/views-main.js"></script>
+<script src="js/views-extra.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
